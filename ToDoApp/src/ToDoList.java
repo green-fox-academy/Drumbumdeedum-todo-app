@@ -19,8 +19,11 @@ public class ToDoList {
       addNewTask(args);
     } else if (args[0].contains("r") && args[0].startsWith("-")) {
       removeTask(args);
+      readListLines();
     } else if (args[0].contains("c") && args[0].startsWith("-")) {
       System.out.println("complete task");
+    } else if ((!args[0].startsWith("-")) || (args[0].length() > 2)) {
+      unsupportedArgument();
     }
   }
 
@@ -82,5 +85,11 @@ public class ToDoList {
     } catch (Exception e) {
       System.out.println("Whooopsie, and error has occurred!");
     }
+  }
+
+  public void unsupportedArgument() {
+    System.out.println();
+    System.out.println("Unsupported argument, please try one from the list below:");
+    printUsageInformation();
   }
 }
