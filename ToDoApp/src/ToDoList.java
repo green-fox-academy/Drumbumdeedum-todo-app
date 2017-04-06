@@ -1,7 +1,11 @@
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 
 public class ToDoList {
 
@@ -11,7 +15,7 @@ public class ToDoList {
     } else if (args[0].contains("l") && args[0].startsWith("-")) {
       readListLines();
     } else if (args[0].contains("a") && args[0].startsWith("-")) {
-      System.out.println("APPLE");
+      addNewTask(args);
     } else if (args[0].contains("r") && args[0].startsWith("-")) {
       System.out.println("ROBOT");
     } else if (args[0].contains("c") && args[0].startsWith("-")) {
@@ -50,6 +54,17 @@ public class ToDoList {
       }
     } catch (Exception e) {
       System.out.println("No todos for today! :)");
+    }
+  }
+
+  public void addNewTask(String[] args) {
+    try {
+      Path listPath = Paths.get("list.txt");
+      List<String> lines = Files.readAllLines(listPath);
+      lines.add(args[1]);
+      Files.write(listPath, lines, Charset.defaultCharset());
+    } catch (Exception e) {
+      System.out.println("Whooopsie, and error has occurred!");
     }
   }
 }
