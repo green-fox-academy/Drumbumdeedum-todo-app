@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class ToDoList {
@@ -17,9 +18,9 @@ public class ToDoList {
     } else if (args[0].contains("a") && args[0].startsWith("-")) {
       addNewTask(args);
     } else if (args[0].contains("r") && args[0].startsWith("-")) {
-      System.out.println("ROBOT");
+      removeTask(args);
     } else if (args[0].contains("c") && args[0].startsWith("-")) {
-      System.out.println("CENTER");
+      System.out.println("complete task");
     }
   }
 
@@ -62,6 +63,21 @@ public class ToDoList {
       Path listPath = Paths.get("list.txt");
       List<String> lines = Files.readAllLines(listPath);
       lines.add(args[1]);
+      Files.write(listPath, lines, Charset.defaultCharset());
+    } catch (Exception e) {
+      System.out.println("Whooopsie, and error has occurred!");
+    }
+  }
+
+  public void removeTask(String[] args) {
+    try {
+      Path listPath = Paths.get("list.txt");
+      List<String> lines = Files.readAllLines(listPath);
+
+      if (lines.size() >= 2) {
+        int argLineNumber = Integer.parseInt(args[1]);
+        lines.remove(argLineNumber - 1);
+      }
       Files.write(listPath, lines, Charset.defaultCharset());
     } catch (Exception e) {
       System.out.println("Whooopsie, and error has occurred!");
