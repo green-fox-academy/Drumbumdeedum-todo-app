@@ -1,8 +1,1 @@
-[ ]one
-[ ]two
-[X]three
-[X]four 
-[ ]five
-[ ]six
-[ ]seven
-[X]eight
+[X]Rock it like mad

@@ -73,18 +73,17 @@ public class ToDoList {
       List<String> lines = Files.readAllLines(listPath);
       int argLineNumber = Integer.parseInt(args[1]);
 
-      if (args.length < 2) {
-        System.out.println("Unable to remove: no index provided");
-      } else if (lines.size() < argLineNumber) {
+      if (lines.size() < argLineNumber) {
         System.out.println("Unable to remove: index out of bound");
       } else if (lines.size() >= 2 && lines.size() > argLineNumber) {
         lines.remove(argLineNumber - 1);
       }
       Files.write(listPath, lines, Charset.defaultCharset());
-    } catch (Exception notAnInt) {
-      if (args.length > 1) {
-        System.out.println("Unable to remove: index not a number");
-      }
+
+    } catch (NumberFormatException notANumber) {
+      System.out.println("Unable to remove: index not a number");
+    } catch (Exception noIndex) {
+      System.out.println("Unable to remove: no index provided");
     }
   }
 
@@ -93,7 +92,7 @@ public class ToDoList {
       Path listPath = Paths.get("list.txt");
       List<String> lines = Files.readAllLines(listPath);
 
-      int argLineNumber = Integer.parseInt(args[1])-1;
+      int argLineNumber = Integer.parseInt(args[1]);
       int lineNr = 0;
 
       if (argLineNumber > lines.size()) {
@@ -114,12 +113,12 @@ public class ToDoList {
           lines.remove(i);
           lines.add(i, buffer);
           lineNr++;
-        } else if (lines.get(i).startsWith("[ ]") && (lineNr != argLineNumber)) {
+        } else if (lines.get(i).startsWith("[ ]") && (lineNr != argLineNumber -1)) {
           String buffer = lines.get(i);
           lines.remove(i);
           lines.add(i, buffer);
           lineNr++;
-        } else if (lines.get(i).startsWith("[ ]") && (lineNr == argLineNumber)) {
+        } else if (lines.get(i).startsWith("[ ]") && (lineNr == argLineNumber -1)) {
           String buffer = lines.get(i).substring(3);
           lines.remove(i);
           lines.add(i, "[X]" + buffer);
@@ -127,8 +126,10 @@ public class ToDoList {
         }
       }
       Files.write(listPath, lines, Charset.defaultCharset());
-    } catch (Exception e) {
-      System.out.println("Unable to check: no index provided");
+    } catch (NumberFormatException notANumber) {
+      System.out.println("Unable to remove: index not a number");
+    } catch (Exception noIndex) {
+      System.out.println("Unable to remove: no index provided");
     }
   }
 
